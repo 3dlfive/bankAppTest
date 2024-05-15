@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Information</title>
+    <!-- Include Material-UI CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+<h1>Customer Information</h1>
+
+<!-- Use Material-UI components for styling the table -->
+<table class="striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Accounts</th>
+        <!-- Add more columns as needed -->
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over each customer -->
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.id}">ID</td>
+        <!-- Add an anchor tag with an onclick event to redirect to the customer detail page -->
+        <td>
+            <a href="#" class="customer-link" th:text="${customer.name}" th:data-id="${customer.id}"></a>
+        </td>        <td th:text="${customer.email}">Email</td>
+        <td th:text="${customer.age}">Age</td>
+        <td>
+            <!-- Iterate over each account of the customer -->
+            <ul>
+                <li th:each="account : ${customer.accounts}">
+                    <span th:text="${account.number}"></span> - <span th:text="${account.balance}"></span>
+                    <!-- Display other account details as needed -->
+                </li>
+            </ul>
+        </td>
+        <!-- Add more columns as needed -->
+    </tr>
+    </tbody>
+</table>
+
+<!-- Include Material-UI JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var customerLinks = document.querySelectorAll('.customer-link');
+        customerLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Предотвращаем стандартное поведение ссылки
+                var customerId = this.getAttribute('data-id');
+                window.location.href = '/customer/' + customerId;
+            });
+        });
+    });
+</script>
+
+<script th:inline="javascript">
+    function viewCustomerDetails(customerId) {
+        window.location.href = '/customer/' + customerId;
+    }
+</script>
+</body>
+</html>

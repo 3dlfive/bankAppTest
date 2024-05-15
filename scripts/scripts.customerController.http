@@ -1,0 +1,54 @@
+### GET /customers/1 - Отримати інформацію про користувача за ідентифікатором 1
+GET http://localhost:9000/customers/1
+
+### GET /customers - Отримати інформацію про всіх користувачів
+GET http://localhost:9000/customers
+
+### POST /customers - Створити нового користувача
+POST http://localhost:9000/customers
+Content-Type: application/json
+
+{
+    "name": "Rogue Earls",
+    "email": "john@example.com",
+    "age": 22,
+    "accounts": []
+}
+### POST /customers - Створити нового користувача2
+POST http://localhost:9000/customers
+Content-Type: application/json
+
+{
+    "name": "Demond Burditt",
+    "email": "tzivia_tresslerws@voted.ke",
+    "age": 12,
+    "accounts": []
+}
+
+### PUT /customers/1 - Змінити дані користувача за ідентифікатором 1
+PUT http://localhost:9000/customers/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "Karna Hennis",
+    "email": "johndoe@example.com",
+    "age": 15,
+    "accounts": []
+}
+
+### DELETE /customers/1 - Видалити користувача за ідентифікатором 1
+DELETE http://localhost:9000/customers/1
+
+
+###POST /customers/1/accounts - Створити рахунок для користувача за ідентифікатором 1
+POST http://localhost:9000/customers/1/accounts
+Content-Type: application/json
+
+{
+    "currency": "USD",
+    "balance": 130.00
+}
+
+### DELETE /customers/1/accounts/1 - Видалити рахунок з ідентифікатором 1 для користувача за ідентифікатором 1
+DELETE http://localhost:9000/customers/1/accounts/1

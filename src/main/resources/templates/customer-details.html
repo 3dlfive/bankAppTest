@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Details</title>
+    <!-- Include Material-UI CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="blue-text">Customer Details</h1>
+    <div class="card">
+        <div class="card-content">
+            <p>ID: <span th:text="${customer.id}" class="blue-text"></span></p>
+            <p>Name: <span th:text="${customer.name}" class="blue-text"></span></p>
+            <p>Email: <span th:text="${customer.email}" class="blue-text"></span></p>
+            <p>Age: <span th:text="${customer.age}" class="blue-text"></span></p>
+            <h2 class="blue-text">Accounts</h2>
+            <ul class="collection">
+                <!-- Iterate over each account of the customer -->
+                <li th:each="account : ${customer.accounts}" class="collection-item">
+                    <span th:text="${account.number}" class="blue-text"></span> | <span th:text="${account.currency}" class="gray-text"></span> | <span th:text="${account.balance}" class="blue-text"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Include Material-UI JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<style>
+    .collection {
+        display: flex;
+        flex-direction: column; /* Align items vertically */
+    }
+
+    .collection-item {
+        display: flex;
+        justify-content: space-between; /* Evenly distribute space between items */
+        align-items: center; /* Align items vertically */
+    }
+
+    .blue-text {
+        color: blue;
+    }
+
+    .gray-text {
+        color: gray;
+    }
+</style>
+</body>
+</html>

@@ -1,0 +1,11 @@
+### Deposit to account
+POST http://localhost:9000/accounts/deposit?accountNumber=b24b7070-c953-4a97-a024-b7e6fd567daf&amount=100
+Content-Type: application/json
+
+### Withdraw from account
+POST http://localhost:9000/accounts/withdraw?accountNumber=b24b7070-c953-4a97-a024-b7e6fd567daf&amount=50
+Content-Type: application/json
+
+### Transfer between accounts
+POST http://localhost:9000/accounts/transfer?fromAccountNumber=b24b7070-c953-4a97-a024-b7e6fd567daf&toAccountNumber=bdd3fc98-ff1a-4e56-963a-0e6b0118a65c&amount=50
+Content-Type: application/json
