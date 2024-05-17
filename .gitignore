@@ -38,6 +38,8 @@ target/
 # frontend folders and artifacts
 ./frontend/build/
 ./frontend/node/
+./frontend/node
 ./frontend/node_modules/
 ./frontend/package-lock.json
 ./frontend/yarn.lock
+/frontend/node/
