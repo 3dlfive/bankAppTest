@@ -97,8 +97,8 @@
 						</goals>
 						<phase>generate-resources</phase>
 						<configuration>
-							<nodeVersion>v16.16.0</nodeVersion>
-							<npmVersion>8.17.0</npmVersion>
+							<nodeVersion>v18.16.0</nodeVersion>
+							<npmVersion>9.5.1</npmVersion>
 						</configuration>
 					</execution>
 
@@ -127,8 +127,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<nodeVersion>v16.16.0</nodeVersion>
-					<workingDirectory>src/main/frontend</workingDirectory>
+					<nodeVersion>v18.16.0</nodeVersion>
+					<workingDirectory>frontend</workingDirectory>
 				</configuration>
 			</plugin>
 
@@ -147,7 +147,7 @@
 							<outputDirectory>target/classes/static</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src/main/frontend/build</directory>
+									<directory>frontend/build</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>

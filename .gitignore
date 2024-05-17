@@ -36,8 +36,8 @@ target/
 *.log
 /pgfiles
 # frontend folders and artifacts
-./src/main/frontend/build/
-./src/main/frontend/node/
-./src/main/frontend/node_modules/
-./src/main/frontend/package-lock.json
-./src/main/frontend/yarn.lock
+./frontend/build/
+./frontend/node/
+./frontend/node_modules/
+./frontend/package-lock.json
+./frontend/yarn.lock
