@@ -27,7 +27,7 @@ public class CustomerController {
     public CustomerDTO getCustomer(@PathVariable Long customerId) {
         return customerService.getOne(customerId);
     }
-
+//test
     // Отримати інформацію про всіх користувачів
     @GetMapping
     public List<CustomerDTO> getAllCustomers() {
