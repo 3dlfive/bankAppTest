@@ -1,0 +1,67 @@
+server:
+  port: 9000
+spring:
+  h2:
+    console:
+      enabled: true
+      settings:
+        trace: false
+logging:
+  level:
+    org: info
+    com: off
+---
+spring:
+  profiles:
+    active: prod
+---
+spring:
+  flyway:
+    enabled: true
+  sql:
+    init:
+      mode: never
+      data-locations: classpath:data-pg.sql
+      schema-locations: classpath:schema-pg.sql
+  datasource:
+    url: jdbc:h2:mem:testdb
+    #    url: jdbc:h2:file:./data/demo
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: false
+    show-sql: true
+    hibernate:
+      id:
+        new_generator_mappings: true
+      ddl-auto: none
+  config:
+    activate:
+      on-profile: dev
+---
+spring:
+  flyway:
+    enabled: false
+  sql:
+    init:
+      mode: never #always
+      schema-locations: classpath:schema-pg.sql
+      data-locations: classpath:data-pg.sql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/di
+    username: bestuser
+    password: bestuser
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        generate_statistics: false
+    show-sql: false
+  config:
+    activate:
+      on-profile: prod
