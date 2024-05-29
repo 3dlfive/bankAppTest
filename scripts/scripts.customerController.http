@@ -12,7 +12,9 @@ Content-Type: application/json
     "name": "Rogue Earls",
     "email": "john@example.com",
     "age": 22,
-    "accounts": []
+    "accounts": [],
+    "password": "qwerty",
+    "phone": "3213-123123"
 }
 ### POST /customers - Створити нового користувача2
 POST http://localhost:9000/api/customers

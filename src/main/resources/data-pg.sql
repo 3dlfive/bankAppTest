@@ -4,9 +4,9 @@ INSERT INTO employer (name, address) VALUES ('Company B', '456 Oak Ave');
 INSERT INTO employer (name, address) VALUES ('Company C', '789 Pine Rd');
 
 -- Insert initial customers
-INSERT INTO customer (name, email, age) VALUES ('John Doe', 'john.doe@example.com', 30);
-INSERT INTO customer (name, email, age) VALUES ('Jane Smith', 'jane.smith@example.com', 25);
-INSERT INTO customer (name, email, age) VALUES ('Alice Johnson', 'alice.johnson@example.com', 28);
+INSERT INTO customer (name, email, age, password, phone) VALUES ('John Doe', 'john.doe@example.com', 30,'123','325-123-12-12');
+INSERT INTO customer (name, email, age, password, phone) VALUES ('Jane Smith', 'jane.smith@example.com', 25,'123','325-123-12-12');
+INSERT INTO customer (name, email, age, password, phone) VALUES ('Alice Johnson', 'alice.johnson@example.com', 28,'123','325-123-12-12');
 
 -- Insert initial customer-employer relationships
 INSERT INTO customer_employer (customer_id, employer_id) VALUES (

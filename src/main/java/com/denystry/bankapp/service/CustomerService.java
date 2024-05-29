@@ -25,7 +25,7 @@ public class CustomerService {
     }
 
     public CustomerDTO save(CustomerDTO customerDTO) {
-        Customer customer = new Customer( customerDTO.name(), customerDTO.email(), customerDTO.age());
+        Customer customer = new Customer( customerDTO.name(), customerDTO.email(), customerDTO.age(),customerDTO.password(),customerDTO.phone());
         customer = customerDao.save(customer);
         return new CustomerDTO(customer);
     }
@@ -62,8 +62,8 @@ public class CustomerService {
 
 
     public CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO) {
-        Customer customer = customerDao.updateCustomer(customerId, new Customer(customerDTO.name(),customerDTO.email(),customerDTO.age()));
-        return new CustomerDTO(customer.getId(),customer.getName(),customer.getEmail(),customer.getAge(),customer.getAccounts());
+        Customer customer = customerDao.updateCustomer(customerId, new Customer(customerDTO.name(),customerDTO.email(),customerDTO.age(),customerDTO.password(),customerDTO.phone()));
+        return new CustomerDTO(customer.getId(),customer.getName(),customer.getEmail(),customer.getAge(),customer.getAccounts(),customerDTO.password(),customerDTO.phone());
     }
 
     public void deleteCustomer(Long customerId) {

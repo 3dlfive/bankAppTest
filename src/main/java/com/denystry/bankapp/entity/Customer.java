@@ -18,6 +18,13 @@ public class Customer extends AbstractEntity {
     private String name;
     private String email;
     private Integer age;
+    private String password;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    private String phone;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Account> accounts = new ArrayList<>();
@@ -28,10 +35,12 @@ public class Customer extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "employer_id")
     )
     private Set<Employer> employers = new HashSet<>();
-    public Customer(String name, String email, Integer age) {
+    public Customer(String name, String email, Integer age,String password,String phone) {
         this.name = name;
         this.email = email;
         this.age = age;
+        this.password = password;
+        this.phone = phone;
         this.accounts = new ArrayList<>();
     }
 
@@ -95,5 +104,9 @@ public class Customer extends AbstractEntity {
                 ", email='" + email + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
