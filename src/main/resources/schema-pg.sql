@@ -33,3 +33,15 @@ CREATE TABLE customer_employer (
                                    CONSTRAINT fk_customer_employer_customer FOREIGN KEY (customer_id) REFERENCES customer(id),
                                    CONSTRAINT fk_customer_employer_employer FOREIGN KEY (employer_id) REFERENCES employer(id)
 );
+--create tables
+BEGIN;
+
+
+ALTER TABLE customer ADD COLUMN     created_date      TIMESTAMP  NULL;
+ALTER TABLE customer ADD COLUMN     last_modified_date      TIMESTAMP  NULL;
+ALTER TABLE account ADD COLUMN     created_date      TIMESTAMP  NULL;
+ALTER TABLE account ADD COLUMN     last_modified_date      TIMESTAMP  NULL;
+ALTER TABLE employer ADD COLUMN     created_date      TIMESTAMP  NULL;
+ALTER TABLE employer ADD COLUMN     last_modified_date      TIMESTAMP  NULL;
+
+COMMIT;

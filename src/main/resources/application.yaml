@@ -46,7 +46,7 @@ spring:
     enabled: false
   sql:
     init:
-      mode: never #always
+      mode: always #never
       schema-locations: classpath:schema-pg.sql
       data-locations: classpath:data-pg.sql
   datasource:
