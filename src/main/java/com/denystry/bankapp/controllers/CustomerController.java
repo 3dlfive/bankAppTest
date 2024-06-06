@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,9 +46,15 @@ public class CustomerController {
 
     @GetMapping("/{customerId}")
     public  ResponseEntity<CustomerResponse> getCustomer(@PathVariable Long customerId) {
-        Optional<Customer> cust = customerService.getOne(customerId);
+        Optional<Customer> customerOpt = customerService.getOne(customerId);
 
-        return ResponseEntity.ok(customeFacade.toDto(cust.get()));
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            CustomerResponse customerResponse = customeFacade.toDto(customer);
+            return new ResponseEntity<>(customerResponse, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 //test
     // Отримати інформацію про всіх користувачів
@@ -65,7 +72,7 @@ public  ResponseEntity<List<CustomerResponse>> getAllCustomers(@RequestParam(def
     @PostMapping
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerRequest customer) {
 
-        Customer save = customerService.save(customeFacade.toEntity(customer));
+        Customer save = customerService.save(customeFacade.toEntity(customer));//todo drop exception to respone
         return  ResponseEntity.ok(customeFacade.toDto(save));
     }
 
