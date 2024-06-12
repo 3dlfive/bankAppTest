@@ -1,9 +1,22 @@
 ### GET /customers/1 - Отримати інформацію про користувача за ідентифікатором 1
 GET http://localhost:9000/api/customers/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdCIsImlhdCI6MTcxNzY4NzkzMSwiZXhwIjoxNzE3Njg5NzMxfQ.3mRYGFWSC-bhROV3euwuv9GXS1Llv0B-QOde9zcRylW_CCe_5wD4aNKGISAj-SA7ebA4ujz6pRr6SrXkZnFoog
 
+
+### check auth token generation
+POST http://localhost:9000/api/auth
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
 ### GET /customers - Отримати інформацію про всіх користувачів
 GET http://localhost:9000/api/customers
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdCIsImlhdCI6MTcxNzY4NzkzMSwiZXhwIjoxNzE3Njg5NzMxfQ.3mRYGFWSC-bhROV3euwuv9GXS1Llv0B-QOde9zcRylW_CCe_5wD4aNKGISAj-SA7ebA4ujz6pRr6SrXkZnFoog
 ### POST /customers - Створити нового користувача
 POST http://localhost:9000/api/customers
 Content-Type: application/json
