@@ -6,25 +6,26 @@ import com.denystry.bankapp.dto.CustomerDTO;
 import com.denystry.bankapp.entity.Account;
 import com.denystry.bankapp.entity.Customer;
 import com.denystry.bankapp.helpers.IdGenerator;
+import com.denystry.bankapp.repository.CustomerDaoDBImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
 public class CustomerService {
-    private final CustomerLoacalDAOImpl customerDao;
-    private final IdGenerator idGenerator;
+    private final CustomerDaoDBImpl customerDao;
+
 
     @Autowired
-    public CustomerService(CustomerLoacalDAOImpl customerDao, IdGenerator idGenerator) {
+    public CustomerService(CustomerDaoDBImpl customerDao) {
         this.customerDao = customerDao;
-        this.idGenerator = new IdGenerator();
     }
 
     public CustomerDTO save(CustomerDTO customerDTO) {
-        Customer customer = new Customer(idGenerator.generateCustomerId(), customerDTO.name(), customerDTO.email(), customerDTO.age());
+        Customer customer = new Customer( customerDTO.name(), customerDTO.email(), customerDTO.age());
         customer = customerDao.save(customer);
         return new CustomerDTO(customer);
     }
@@ -37,7 +38,7 @@ public class CustomerService {
     public void deleteAll(List<CustomerDTO> customerDTOs) {
         return;
     }
-
+    @Transactional
     public List<CustomerDTO> findAll() {
         List<Customer> customers = customerDao.findAll();
         return customers.stream().map(CustomerDTO::new).collect(Collectors.toList());
@@ -51,6 +52,7 @@ public class CustomerService {
         Customer customer = customerDao.getOne(id);
         return new CustomerDTO(customer);
     }
+    @Transactional
     public Customer getOneCustomer(long id) {
         Customer customer = customerDao.getOne(id);
         return customer;
@@ -69,13 +71,13 @@ public class CustomerService {
     }
 
     public AccountDTO createAccountForCustomer(Long customerId, AccountDTO accountDTO) {
+        Customer customer = customerDao.getOne(customerId);
 
-
-        Account newAccount = new Account(idGenerator.generateAccountId(),accountDTO.currency(),accountDTO.balance(),customerId);
+        Account newAccount = new Account(accountDTO.currency(),accountDTO.balance(),customer);
 
         System.out.println("Service " + newAccount);
         Account accountForCustomer = customerDao.createAccountForCustomer(customerId,newAccount);
-        return new AccountDTO(accountForCustomer.getId(),accountForCustomer.getNumber(),accountForCustomer.getCurrency(),accountForCustomer.getBalance(),accountForCustomer.getCustomer());
+        return new AccountDTO(accountForCustomer.getId(),accountForCustomer.getNumber(),accountForCustomer.getCurrency(),accountForCustomer.getBalance(),accountForCustomer.getCustomer().getId());
     }
 
     public void deleteAccountFromCustomer(Long customerId, Long accountId) {

@@ -1,34 +1,46 @@
 package com.denystry.bankapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import java.util.UUID;
 
-public class Account {
+@Entity
+public class Account extends AbstractEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String number;
+
+    @Enumerated(EnumType.STRING)
     private Currency currency;
     private Double balance;
-    private Long customer;
 
-    public Account(Currency currency, Long customer) {
-        this.id = 0L;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnore
+    private Customer customer;
+
+    public Account() {
         this.number = UUID.randomUUID().toString();
-        this.currency = currency;
         this.balance = 0.0;
+    }
+
+    public Account(Currency currency, Customer customer) {
+        this();
+        this.currency = currency;
         this.customer = customer;
     }
 
-    public Account() {
-
-    }
-
-    public Account(Long id, Currency currency, Double balance, Long customer) {
+    public Account(Currency currency, Double balance, Customer customer) {
+        this();
         this.id = id;
-        this.number = UUID.randomUUID().toString();
         this.currency = currency;
         this.balance = balance;
         this.customer = customer;
     }
 
+    // Геттери та сеттери
     public Long getId() {
         return id;
     }
@@ -61,11 +73,11 @@ public class Account {
         this.balance = balance;
     }
 
-    public Long getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Long customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
@@ -76,8 +88,7 @@ public class Account {
                 ", number='" + number + '\'' +
                 ", currency=" + currency +
                 ", balance=" + balance +
-                ", customer_id=" + customer +
+                ", customer=" + customer.getId() +
                 '}';
     }
-
 }

@@ -29,4 +29,7 @@ http://localhost:9000
 ```
 cd /src/main/frontend
 npm run dev`
-``
+```
+
+### DB in docker
+in folder sripts docker-compose file to run pg in docker

@@ -8,32 +8,50 @@ import {
     TableRow,
     Paper,
     Container,
-    Typography
+    Typography,
+    Button
 } from '@mui/material';
-import CustomerDetails from "./CustomerDetails.component";
-import api from "../axiosConfig";
+import CustomerDetails from './CustomerDetails.component';
+import CreateCustomerModal from './CreateCustomerModal.component';
+import api from '../axiosConfig';
+
 function CustomerList() {
     const [customers, setCustomers] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {  const fetchData = async () => {
-        try {
-            const response = await api.get('/api/customers');
-            console.log(response)
-
-
-            const data = await response.data;
-            setCustomers(data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get('/api/customers');
+                const data = await response.data;
+                setCustomers(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
         fetchData();
     }, []);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCustomerCreated = (newCustomer) => {
+        setCustomers((prevCustomers) => [...prevCustomers, newCustomer]);
+    };
+
     return (
-        <Container  >
+        <Container>
             <Typography variant="h2" color="blue">Customer List</Typography>
-            <TableContainer component={Paper}>
+            <Button variant="contained" color="primary" onClick={handleOpenModal} sx={{ mt: 2 }}>
+                Create New Customer
+            </Button>
+            <TableContainer component={Paper} sx={{ mt: 2 }}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -42,16 +60,20 @@ function CustomerList() {
                             <TableCell>Email</TableCell>
                             <TableCell>Age</TableCell>
                             <TableCell>Accounts</TableCell>
-
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {customers.map(customer => (
+                        {customers.map((customer) => (
                             <CustomerDetails key={customer.id} customer={customer} />
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <CreateCustomerModal
+                open={isModalOpen}
+                onClose={handleCloseModal}
+                onCustomerCreated={handleCustomerCreated}
+            />
         </Container>
     );
 }

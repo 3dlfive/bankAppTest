@@ -1,28 +1,42 @@
 package com.denystry.bankapp.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
 
-public class Customer {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Entity
+public class Customer extends AbstractEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
     private Integer age;
-    private List<Account> accounts;
-
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Account> accounts = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "customer_employer",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "employer_id")
+    )
+    private Set<Employer> employers = new HashSet<>();
     public Customer(String name, String email, Integer age) {
-        this.id = null;
         this.name = name;
         this.email = email;
         this.age = age;
         this.accounts = new ArrayList<>();
     }
-    public Customer(Long id,String name, String email, Integer age) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.age = age;
-        this.accounts = new ArrayList<>();
+
+    public Customer() {
+
     }
 
     public Long getId() {
@@ -65,6 +79,13 @@ public class Customer {
         this.accounts = accounts;
     }
 
+    public Set<Employer> getEmployers() {
+        return employers;
+    }
+
+    public void setEmployers(Set<Employer> employers) {
+        this.employers = employers;
+    }
 
     @Override
     public String toString() {
