@@ -2,48 +2,77 @@ package com.denystry.bankapp.controllers;
 
 import com.denystry.bankapp.dto.AccountDTO;
 import com.denystry.bankapp.dto.CustomerDTO;
+import com.denystry.bankapp.dto.RespAndReq.AccountRequest;
+import com.denystry.bankapp.dto.RespAndReq.AccountResponse;
+import com.denystry.bankapp.dto.RespAndReq.CustomerRequest;
+import com.denystry.bankapp.dto.RespAndReq.CustomerResponse;
+import com.denystry.bankapp.entity.Customer;
+import com.denystry.bankapp.entity.Employer;
+import com.denystry.bankapp.facada.AccountFacade;
+import com.denystry.bankapp.facada.CustomerFacade;
+import com.denystry.bankapp.facada.EmployerFacade;
 import com.denystry.bankapp.service.CustomerService;
+import com.denystry.bankapp.service.CustomerServiceJpa;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
 @RequestMapping("/api/customers")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5000"})
 public class CustomerController {
-    private final CustomerService customerService;
-
+    private final CustomerServiceJpa customerService;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    private EmployerFacade employerFacade;
+    @Autowired
+    private CustomerFacade customeFacade;
+    @Autowired
+    private AccountFacade accountFacade;
+    @Autowired
+    public CustomerController(CustomerServiceJpa customerService) {
         this.customerService = customerService;
     }
 
     @GetMapping("/{customerId}")
-    public CustomerDTO getCustomer(@PathVariable Long customerId) {
-        return customerService.getOne(customerId);
+    public  ResponseEntity<CustomerResponse> getCustomer(@PathVariable Long customerId) {
+        Optional<Customer> cust = customerService.getOne(customerId);
+
+        return ResponseEntity.ok(customeFacade.toDto(cust.get()));
     }
 //test
     // Отримати інформацію про всіх користувачів
-    @GetMapping
-    public List<CustomerDTO> getAllCustomers() {
-        return customerService.findAll();
-    }
+@GetMapping
+public  ResponseEntity<List<CustomerResponse>> getAllCustomers(@RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "10") int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    return ResponseEntity.ok(customerService.findAll(pageable)
+            .stream()
+            .map(customeFacade::toDto)
+            .toList());
+}
 
-    // Створити користувача
+
     @PostMapping
-    public CustomerDTO createCustomer(@RequestBody CustomerDTO customerDTO) {
-        return customerService.save(customerDTO);
+    public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerRequest customer) {
+
+        Customer save = customerService.save(customeFacade.toEntity(customer));
+        return  ResponseEntity.ok(customeFacade.toDto(save));
     }
 
     // Змінити дані користувача
     @PutMapping("/{customerId}")
-    public CustomerDTO updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) {
-        return customerService.updateCustomer(customerId, customerDTO);
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long customerId, @Valid @RequestBody   CustomerRequest customer) {
+        return ResponseEntity.ok(customeFacade.toDto(customerService.updateCustomer(customerId, customeFacade.toEntity(customer))));
     }
 
     // Видалити користувача
@@ -54,10 +83,9 @@ public class CustomerController {
 
     // Створити рахунок для конкретного користувача
     @PostMapping("/{customerId}/accounts")
-    public AccountDTO createAccountForCustomer(@PathVariable Long customerId, @RequestBody AccountDTO accountDTO) {
-        AccountDTO fixedAccount = new AccountDTO(accountDTO.currency(), accountDTO.balance(),customerId);
+    public ResponseEntity<AccountResponse> createAccountForCustomer(@PathVariable Long customerId, @Valid @RequestBody AccountRequest accountDTO) {
 
-        return customerService.createAccountForCustomer(customerId, fixedAccount);
+        return ResponseEntity.ok(accountFacade.toDto(customerService.createAccountForCustomer(customerId,accountFacade.toEntity(accountDTO))));
     }
 
     // Видалити рахунок у користувача
