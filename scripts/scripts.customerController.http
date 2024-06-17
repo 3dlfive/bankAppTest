@@ -16,7 +16,7 @@ Content-Type: application/json
 %}
 ### GET /customers - Отримати інформацію про всіх користувачів
 GET http://localhost:9000/api/customers
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdCIsImlhdCI6MTcxODYzMDg5MSwiZXhwIjoxNzE4NjMyNjkxfQ.Kl0B1aCjQqnyBZquBwDXuFehPJhurh12oSu11g0OmRHUzJatu1dnxu8pvOByrKjC-mUu_lBOq1AntgClSUUa7w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdCIsImlhdCI6MTcxODYzNTM1NSwiZXhwIjoxNzE4NjM3MTU1fQ.ZQIo4jSoOtBl7yfqynd-c9nIAS_BW-Q_wJ0qxynjiaYaY-gnRB0tLCpo5dYIFZbWuI3wx0cCVFJek7FHOWl2yQ
 ### POST /customers - Створити нового користувача
 POST http://localhost:9000/api/customers
 Content-Type: application/json

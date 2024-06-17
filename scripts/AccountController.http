@@ -1,11 +1,12 @@
 ### Deposit to account
-POST http://localhost:9000/api/accounts/deposit?accountNumber=b24b7070-c953-4a97-a024-b7e6fd567daf&amount=100
+POST http://localhost:9000/api/accounts/deposit?accountNumber=828555c2-f679-454b-8c64-7d68078def2c&amount=100
 Content-Type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdCIsImlhdCI6MTcxODYzODkzNSwiZXhwIjoxNzE4NjQwNzM1fQ.tK1f3W2NwRfuvXudxEmN0c6PlrqAQlcPhwHSRn_kwDfTiU3BmrAe-gTDKiMxLvNlKaTianjCvRyzv55WCh-xsA
 ### Withdraw from account
-POST http://localhost:9000/api/accounts/withdraw?accountNumber=b24b7070-c953-4a97-a024-b7e6fd567daf&amount=50
+POST http://localhost:9000/api/accounts/withdraw?accountNumber=828555c2-f679-454b-8c64-7d68078def2c&amount=50
 Content-Type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdCIsImlhdCI6MTcxODYzODkzNSwiZXhwIjoxNzE4NjQwNzM1fQ.tK1f3W2NwRfuvXudxEmN0c6PlrqAQlcPhwHSRn_kwDfTiU3BmrAe-gTDKiMxLvNlKaTianjCvRyzv55WCh-xsA
 ### Transfer between accounts
-POST http://localhost:9000/api/accounts/transfer?fromAccountNumber=b24b7070-c953-4a97-a024-b7e6fd567daf&toAccountNumber=bdd3fc98-ff1a-4e56-963a-0e6b0118a65c&amount=50
+POST http://localhost:9000/api/accounts/transfer?fromAccountNumber=828555c2-f679-454b-8c64-7d68078def2c&toAccountNumber=bdd3fc98-ff1a-4e56-963a-0e6b0118a65c&amount=50
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdCIsImlhdCI6MTcxODYzODkzNSwiZXhwIjoxNzE4NjQwNzM1fQ.tK1f3W2NwRfuvXudxEmN0c6PlrqAQlcPhwHSRn_kwDfTiU3BmrAe-gTDKiMxLvNlKaTianjCvRyzv55WCh-xsA
