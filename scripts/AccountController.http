@@ -10,3 +10,16 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViI
 POST http://localhost:9000/api/accounts/transfer?fromAccountNumber=828555c2-f679-454b-8c64-7d68078def2c&toAccountNumber=bdd3fc98-ff1a-4e56-963a-0e6b0118a65c&amount=50
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoidGVzdCIsImlhdCI6MTcxODYzODkzNSwiZXhwIjoxNzE4NjQwNzM1fQ.tK1f3W2NwRfuvXudxEmN0c6PlrqAQlcPhwHSRn_kwDfTiU3BmrAe-gTDKiMxLvNlKaTianjCvRyzv55WCh-xsA
+
+
+### check auth token generation
+POST http://localhost:9000/api/auth
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
+> {%
+    client.global.set("auth_token", response.body.token);
+%}

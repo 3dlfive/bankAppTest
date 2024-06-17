@@ -33,3 +33,9 @@ npm run dev`
 
 ### DB in docker
 in folder sripts docker-compose file to run pg in docker
+
+## WS check
+
+http://localhost:9000/tl/ws-test
+
+also y can auth from scripts/AccuountController.http after use enpoints in that file and check WS on page http://localhost:9000/tl/ws-test
