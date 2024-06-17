@@ -28,7 +28,7 @@ public class AccountController {
             log.info("Deposited {} to account {}", amount, accountNumber);
             return ResponseEntity.ok("Deposited " + amount + " to account " + accountNumber);
         } else {
-            log.info("Failed to deposit {} to account {}", amount, accountNumber);
+            log.warn("Failed to deposit {} to account {}", amount, accountNumber);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to deposit to account " + accountNumber);
         }
     }
@@ -41,7 +41,7 @@ public class AccountController {
             log.info("Withdrawn {} from account {}", amount, accountNumber);
             return ResponseEntity.ok("Withdrawn " + amount + " from account " + accountNumber);
         } else {
-            log.info("Failed to withdraw {} from account {}", amount, accountNumber);
+            log.warn("Failed to withdraw {} from account {}", amount, accountNumber);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to withdraw from account " + accountNumber);
         }
     }
@@ -54,7 +54,7 @@ public class AccountController {
             log.info("Transferred {} from account {} to account {}", amount, fromAccountNumber, toAccountNumber);
             return ResponseEntity.ok("Transferred " + amount + " from account " + fromAccountNumber + " to account " + toAccountNumber);
         } else {
-            log.info("Failed to transfer {} from account {} to account {}", amount, fromAccountNumber, toAccountNumber);
+            log.warn("Failed to transfer {} from account {} to account {}", amount, fromAccountNumber, toAccountNumber);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to transfer from account " + fromAccountNumber + " to account " + toAccountNumber);
         }
     }
