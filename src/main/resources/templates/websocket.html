@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script>
+        var stompClient = null;
+
+        function connect() {
+            var socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/accountUpdates', function(message) {
+                    console.log(message.body)
+                    showMessage(message.body)
+                    // console.log(showMessage(JSON.parse(message.body).content));
+                    // console.log(showMessage(JSON.parse(message).content));
+                    // console.log(message.content);
+                    // console.log(message);
+                    // showMessage(JSON.parse(message.body).content);
+
+                });
+            });
+        }
+
+        function showMessage(message) {
+            $('#messages').append('<tr><td>' + message + '</td></tr>');
+        }
+        function processMessage(rawMessage) {
+            // Находим индекс строки, содержащей \n\n после content-length:63
+            var index = rawMessage.indexOf('content-length:63\n\n');
+            if (index !== -1) {
+                // Обрезаем строку, оставляем только содержимое сообщения
+                var content = rawMessage.substring(index + 'content-length:63\n\n'.length);
+                // Убираем управляющий символ \u0000 в конце строки, если он есть
+                content = content.replace(/\u0000$/, '');
+                return content.trim(); // Возвращаем очищенное содержимое сообщения
+            }
+            return null; // В случае ошибки возвращаем null
+        }
+        $(function () {
+            connect();
+        });
+    </script>
+</head>
+<body>
+<h1>WebSocket Test Page</h1>
+<table id="messages">
+    <thead>
+    <tr>
+        <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Messages will be appended here -->
+    </tbody>
+</table>
+</body>
+</html>

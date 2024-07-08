@@ -25,11 +25,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/customers")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5000"})
+@Slf4j
 public class CustomerController {
     private final CustomerServiceJpa customerService;
 
@@ -45,61 +46,71 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public  ResponseEntity<CustomerResponse> getCustomer(@PathVariable Long customerId) {
+    public ResponseEntity<CustomerResponse> getCustomer(@PathVariable Long customerId) {
+        log.info("Getting customer with ID: {}", customerId);
         Optional<Customer> customerOpt = customerService.getOne(customerId);
 
         if (customerOpt.isPresent()) {
             Customer customer = customerOpt.get();
             CustomerResponse customerResponse = customeFacade.toDto(customer);
+            log.info("Found customer: {}", customerResponse);
             return new ResponseEntity<>(customerResponse, HttpStatus.OK);
         } else {
+            log.info("Customer with ID: {} not found", customerId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-//test
-    // Отримати інформацію про всіх користувачів
-@GetMapping
-public  ResponseEntity<List<CustomerResponse>> getAllCustomers(@RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "10") int size) {
-    Pageable pageable = PageRequest.of(page, size);
-    return ResponseEntity.ok(customerService.findAll(pageable)
-            .stream()
-            .map(customeFacade::toDto)
-            .toList());
-}
 
+    @GetMapping
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers(@RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "10") int size) {
+        log.info("Getting all customers, page: {}, size: {}", page, size);
+        Pageable pageable = PageRequest.of(page, size);
+        List<CustomerResponse> customers = customerService.findAll(pageable)
+                .stream()
+                .map(customeFacade::toDto)
+                .toList();
+        log.info("Found {} customers", customers.size());
+        return ResponseEntity.ok(customers);
+    }
 
     @PostMapping
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerRequest customer) {
-
-        Customer save = customerService.save(customeFacade.toEntity(customer));//todo drop exception to respone
-        return  ResponseEntity.ok(customeFacade.toDto(save));
+        log.info("Creating customer: {}", customer);
+        Customer savedCustomer = customerService.save(customeFacade.toEntity(customer));
+        CustomerResponse response = customeFacade.toDto(savedCustomer);
+        log.info("Customer created: {}", response);
+        return ResponseEntity.ok(response);
     }
 
-    // Змінити дані користувача
     @PutMapping("/{customerId}")
-    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long customerId, @Valid @RequestBody   CustomerRequest customer) {
-        return ResponseEntity.ok(customeFacade.toDto(customerService.updateCustomer(customerId, customeFacade.toEntity(customer))));
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long customerId, @Valid @RequestBody CustomerRequest customer) {
+        log.info("Updating customer with ID: {}, data: {}", customerId, customer);
+        Customer updatedCustomer = customerService.updateCustomer(customerId, customeFacade.toEntity(customer));
+        CustomerResponse response = customeFacade.toDto(updatedCustomer);
+        log.info("Customer updated: {}", response);
+        return ResponseEntity.ok(response);
     }
 
-    // Видалити користувача
     @DeleteMapping("/{customerId}")
     public void deleteCustomer(@PathVariable Long customerId) {
+        log.info("Deleting customer with ID: {}", customerId);
         customerService.deleteCustomer(customerId);
+        log.info("Customer with ID: {} deleted", customerId);
     }
 
-    // Створити рахунок для конкретного користувача
     @PostMapping("/{customerId}/accounts")
     public ResponseEntity<AccountResponse> createAccountForCustomer(@PathVariable Long customerId, @Valid @RequestBody AccountRequest accountDTO) {
-
-        return ResponseEntity.ok(accountFacade.toDto(customerService.createAccountForCustomer(customerId,accountFacade.toEntity(accountDTO))));
+        log.info("Creating account for customer with ID: {}, account data: {}", customerId, accountDTO);
+        AccountResponse response = accountFacade.toDto(customerService.createAccountForCustomer(customerId, accountFacade.toEntity(accountDTO)));
+        log.info("Account created for customer with ID: {}, account: {}", customerId, response);
+        return ResponseEntity.ok(response);
     }
 
-    // Видалити рахунок у користувача
     @DeleteMapping("/{customerId}/accounts/{accountId}")
     public void deleteAccountFromCustomer(@PathVariable Long customerId, @PathVariable Long accountId) {
+        log.info("Deleting account with ID: {} from customer with ID: {}", accountId, customerId);
         customerService.deleteAccountFromCustomer(customerId, accountId);
+        log.info("Account with ID: {} deleted from customer with ID: {}", accountId, customerId);
     }
-
-
 }

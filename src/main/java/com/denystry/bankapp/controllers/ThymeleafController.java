@@ -39,4 +39,8 @@ public class ThymeleafController {
         model.addAttribute("customer", customer);
         return "customer-details"; // Имя шаблона для отображения информации о клиенте
     }
+    @GetMapping("/ws-test")
+    public String websocketTestPage() {
+        return "websocket";
+    }
 }
